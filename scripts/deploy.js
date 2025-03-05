@@ -22,5 +22,6 @@ main()
         process.exit(1);
     });
 
+// Contract Addresses:
 // SEPOLIA - 0xCE04BfcA0dCCC60E9038A4F074d971814a8546b3
 // Ganache - 0x4f4Db9a161403ad88815E451522336Afc87152eb
