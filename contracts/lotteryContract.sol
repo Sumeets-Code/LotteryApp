@@ -14,8 +14,8 @@ contract Lottery {
     // lottery functions
    function play() public payable  { // onlyowner
     //   require (msg.value >= msg.sender.balance, "Not enough Ether to play.");
-      require (msg.value == 1 ether, "Please pay 1 ether.");
-       _playersList.push(payable(msg.sender));
+        require (msg.value == 1 wei, "Please pay 1 wei.");
+        _playersList.push(payable(msg.sender));
     }
 
     function getBalance() public view returns(uint){ // only owner

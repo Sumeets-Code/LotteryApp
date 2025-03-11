@@ -23,3 +23,7 @@ module.exports = {
     }
   }
 };
+
+// npx hardhat compile
+// npx hardhat run scripts/deploy.js --network ganache            To deploy the contract on ganache
+// npx hardhat run scripts/deploy.js --network sepolia            To deploy the contract on sepolia
