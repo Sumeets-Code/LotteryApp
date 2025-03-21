@@ -15,11 +15,10 @@ function LotteryApp() {
 
   const contractAddress = "0x4f4Db9a161403ad88815E451522336Afc87152eb";
   const contractAbi = abi.abi;
-  
+
   useEffect (() => {
     const template = async () => {
 
-      
       try {
         // MetaMask API
         // const web3 = window.ethereum;
@@ -34,10 +33,11 @@ function LotteryApp() {
 
         const provider = new ethers.BrowserProvider(ethereum);
         const signer = provider.getSigner();
-        
+
+        // Creatinga an instance of the contract
         const lotteryContract = new ethers.Contract(
-          contractAddress, 
-          contractAbi, 
+          contractAddress,
+          contractAbi,
           signer
         );
 
@@ -64,15 +64,15 @@ function LotteryApp() {
     const provider = new ethers.BrowserProvider(ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(contractAddress, contractAbi, signer);
-    
-    const tx = await contract.play({ value: ethers.utils.parseEther('0.000000000000000001') }); // 1 wei
+
+    const tx = await contract.method.play({ value: ethers.utils.parseEther('0.000000000000000001') }); // 1 wei
     await tx.wait();
     window.location.reload();
   };
 
   const pickWinner = async () => {
     const {ethereum} = window;
-    const provider = new ethers.BrowserProvider(ethereum);    
+    const provider = new ethers.BrowserProvider(ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(contractAddress, contractAbi, signer);
     const tx = await contract.pickWinner();
@@ -82,14 +82,13 @@ function LotteryApp() {
     window.location.reload();
   };
 
-
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center", // Centers horizontally
         alignItems: "center", // Centers vertically
-        height: "100vh", 
+        height: "100vh",
         width: "100vw"
       }}
     >
@@ -101,13 +100,13 @@ function LotteryApp() {
           boxShadow: "0 0 10px rgba(255, 255, 255, 0.89)",
         }}
       >
-        
+
         <h1>Lottery App</h1>
         <p>Connected account: {account}</p>
         <p>Players: {players.length}</p>
 
         {/* Input for participant name */}
-        
+
         <button
           onClick={play}
           style={{ padding: "10px 20px", fontSize: "16px" }}
@@ -138,72 +137,32 @@ function LotteryApp() {
 
 export default LotteryApp;
 
-
 /*
-// src/Lottery.js
-import React, { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import LotteryContract from './LotteryContract.json'; // Import the ABI
+// Code for the Signing a document.
+import { ethers } from "ethers";
 
-const lotteryAddress = 'YOUR_CONTRACT_ADDRESS'; // Replace with your deployed contract address
+function App() {
+  // Replace with your Ethereum private key
+  const privateKey = "a0ff4c327779b4e320476bd9c75fd734bddfd259109e4512dc41c8a0ad0ba166";
+  const message = "This is the document to sign.";
 
-const Lottery = () => {
-    const [account, setAccount] = useState('');
-    const [players, setPlayers] = useState([]);
-    const [balance, setBalance] = useState(0);
-    const [winner, setWinner] = useState('');
+  // Create a wallet instance
+  const wallet = new ethers.Wallet(privateKey);
 
-    useEffect(() => {
-        const loadBlockchainData = async () => {
-            
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setAccount(address);
+  // Sign the message
+  async function signMessage() {
+    const signature = await wallet.signMessage(message);
+    console.log("Signature:", signature);
+  }
 
-            const contract = new ethers.Contract(lotteryAddress, LotteryContract.abi, signer);
-            const playersList = await contract._playersList();
-            setPlayers(playersList);
+  signMessage();
+  
+  return (
+    <div>
+      <button onClick={signMessage}>Sign Message</button>
+    </div>
+  );
+}
 
-            const contractBalance = await contract.getBalance();
-            setBalance(ethers.utils.formatEther(contractBalance));
-        };
-
-        loadBlockchainData();
-    }, []);
-
-    const play = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(lotteryAddress, LotteryContract.abi, signer);
-        const tx = await contract.play({ value: ethers.utils.parseEther('0.000000000000000001') }); // 1 wei
-        await tx.wait();
-        window.location.reload();
-    };
-
-    const pickWinner = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(lotteryAddress, LotteryContract.abi, signer);
-        const tx = await contract.pickWinner();
-        await tx.wait();
-        const winnerAddress = await contract.Winner();
-        setWinner(winnerAddress);
-        window.location.reload();
-    };
-
-    return (
-        <div>
-            <h1>Lottery DApp</h1>
-            <p>Account: {account}</p>
-            <p>Players: {players.length}</p>
-            <p>Contract Balance: {balance} ETH</p>
-            <button onClick={play}>Play (1 wei)</button>
-            <button onClick={pickWinner}>Pick Winner</button>
-            {winner && <p>Winner: {winner}</p>}
-        </div>
-    );
-};
-
-export default Lottery;
+export default App;
 */
